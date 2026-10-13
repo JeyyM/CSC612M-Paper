@@ -1,0 +1,8 @@
+# The builder writes these. They can be rebuilt from the stills.
+*.mkv
+*.mp4
+*.webm
+*.avi
+*.mov
+*.raw
+__pycache__/
