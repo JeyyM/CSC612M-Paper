@@ -1,0 +1,4 @@
+pairs 899 mismatches 0 quiet 897
+brightness_ordinary_c 538 558
+brightness_compiler_c 538 558
+brightness_avx2 538 558

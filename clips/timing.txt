@@ -1,0 +1,10 @@
+Clip: clips/01.mkv, agenda slide and article, 1920x1080, 900 frames, 899 pairs.
+brightness_ordinary_c: src/brightness_c.c, compiled -O2 with the vectorizer off.
+brightness_compiler_c: the same source, compiled -O2 -mavx2 with the vectorizer on. GCC widened the bytes. It did not emit the SAD instruction.
+brightness_avx2: src/brightness_avx2.asm, assembled with nasm -f win64, 32 bytes per vpsadbw. The clock covers the sum only, after frames are in memory.
+Five passes each. The table keeps the median, and the runs are sorted.
+Speedup, compiler against plain: 2.35x.
+Speedup, AVX2 against compiler: 3.91x.
+Encoding time is not in this table.
+Kernel check: pairs 899 mismatches 0 pixels 2073600.
+Cut lists, one per kernel: clips/cuts.txt.
