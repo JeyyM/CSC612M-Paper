@@ -1,0 +1,19 @@
+clip,group,easy,dense,start,hold,frames,bytes,status
+01,comparison,images\simple\agenda slide.png,images\dense\article.png,538,20,900,1100861,built
+02,comparison,images\simple\empty dashboard.png,images\dense\code-editor.png,418,20,900,508532,built
+03,comparison,images\simple\empty-editor.png,images\dense\rfc-body.png,223,20,900,640659,built
+04,comparison,images\simple\section divider.png,images\dense\spec-columns.png,443,20,900,851781,built
+05,comparison,images\simple\grid-desktop.png,images\dense\spreadsheet.png,517,20,900,756937,built
+06,comparison,images\simple\editor-desktop.png,images\dense\terminal-log.png,591,20,900,1234499,built
+07,comparison,images\simple\agenda slide.png,images\dense\code-editor.png,514,20,900,759150,built
+08,comparison,images\simple\empty dashboard.png,images\dense\rfc-body.png,545,20,900,776056,built
+09,comparison,images\simple\empty-editor.png,images\dense\spec-columns.png,439,20,900,560010,built
+10,comparison,images\simple\section divider.png,images\dense\spreadsheet.png,357,20,900,786431,built
+11,comparison,images\simple\grid-desktop.png,images\dense\terminal-log.png,350,20,900,1034242,built
+12,comparison,images\simple\editor-desktop.png,images\dense\article.png,582,20,900,1178185,built
+13,boundary,images\medium\analytics.png,images\dense\rfc-body.png,644,20,900,1004400,built
+14,boundary,images\medium\blank-writer.png,images\dense\spec-columns.png,182,20,900,770168,built
+15,boundary,images\medium\board.png,images\dense\spreadsheet.png,481,20,900,1490303,built
+16,boundary,images\medium\control-panel.png,images\dense\terminal-log.png,515,20,900,2121382,built
+17,boundary,images\medium\file-manager.png,images\dense\article.png,631,20,900,2049948,built
+18,boundary,images\medium\appearance.png,images\dense\code-editor.png,354,20,900,1963138,built
