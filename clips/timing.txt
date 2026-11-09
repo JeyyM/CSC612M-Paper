@@ -1,10 +1,30 @@
-Clip: clips/01.mkv, agenda slide and article, 1920x1080, 900 frames, 899 pairs.
+Clips 01 through 18. Each clip is 1920x1080, 900 frames, 899 pairs.
 brightness_ordinary_c: src/brightness_c.c, compiled -O2 with the vectorizer off.
 brightness_compiler_c: the same source, compiled -O2 -mavx2 with the vectorizer on. GCC widened the bytes. It did not emit the SAD instruction.
 brightness_avx2: src/brightness_avx2.asm, assembled with nasm -f win64, 32 bytes per vpsadbw. The clock covers the sum only, after frames are in memory.
-Five passes each. The table keeps the median, and the runs are sorted.
-Speedup, compiler against plain: 2.35x.
-Speedup, AVX2 against compiler: 3.91x.
+One row per kernel per clip. Five passes each. The table keeps the median, and the runs are sorted.
+Speedup is within that clip. Ordinary C is 1.0000.
+Speedup, compiler against plain, mean of the 18 clips: 2.40x.
+Speedup, AVX2 against compiler, mean of the 18 clips: 5.15x.
+Speedup, AVX2 against plain, mean of the 18 clips: 12.35x.
 Encoding time is not in this table.
-Kernel check: pairs 899 mismatches 0 pixels 2073600.
+Kernel check, one line per clip:
+01 pairs 899 mismatches 0 pixels 2073600
+02 pairs 899 mismatches 0 pixels 2073600
+03 pairs 899 mismatches 0 pixels 2073600
+04 pairs 899 mismatches 0 pixels 2073600
+05 pairs 899 mismatches 0 pixels 2073600
+06 pairs 899 mismatches 0 pixels 2073600
+07 pairs 899 mismatches 0 pixels 2073600
+08 pairs 899 mismatches 0 pixels 2073600
+09 pairs 899 mismatches 0 pixels 2073600
+10 pairs 899 mismatches 0 pixels 2073600
+11 pairs 899 mismatches 0 pixels 2073600
+12 pairs 899 mismatches 0 pixels 2073600
+13 pairs 899 mismatches 0 pixels 2073600
+14 pairs 899 mismatches 0 pixels 2073600
+15 pairs 899 mismatches 0 pixels 2073600
+16 pairs 899 mismatches 0 pixels 2073600
+17 pairs 899 mismatches 0 pixels 2073600
+18 pairs 899 mismatches 0 pixels 2073600
 Cut lists, one per kernel: clips/cuts.txt.

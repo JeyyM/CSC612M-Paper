@@ -146,8 +146,10 @@ int main(int argument_count, char **arguments) {
         current_frame = held_frame;
     }
 
-    /* "pairs 899 mismatches 0 quiet 897", then one cut line per kernel. */
-    printf("pairs %d mismatches %d quiet %d\n", frame, mismatches, quiet);
+    /* pairs and mismatches are separate rows. quiet is for run_system.py. */
+    printf("pairs %d\n", frame);
+    printf("mismatches %d\n", mismatches);
+    printf("quiet %d\n", quiet);
     print_cuts("brightness_ordinary_c", ordinary_cuts, ordinary_count);
     print_cuts("brightness_compiler_c", compiler_cuts, compiler_count);
     print_cuts("brightness_avx2", assembly_cuts, assembly_count);

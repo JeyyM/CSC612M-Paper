@@ -1,4 +1,125 @@
-pairs 899 mismatches 0 quiet 897
+clip 01
+pairs 899
+mismatches 0
 brightness_ordinary_c 538 558
 brightness_compiler_c 538 558
 brightness_avx2 538 558
+
+clip 02
+pairs 899
+mismatches 0
+brightness_ordinary_c 418 438
+brightness_compiler_c 418 438
+brightness_avx2 418 438
+
+clip 03
+pairs 899
+mismatches 0
+brightness_ordinary_c 223 243
+brightness_compiler_c 223 243
+brightness_avx2 223 243
+
+clip 04
+pairs 899
+mismatches 0
+brightness_ordinary_c 443 463
+brightness_compiler_c 443 463
+brightness_avx2 443 463
+
+clip 05
+pairs 899
+mismatches 0
+brightness_ordinary_c 517 537
+brightness_compiler_c 517 537
+brightness_avx2 517 537
+
+clip 06
+pairs 899
+mismatches 0
+brightness_ordinary_c 591 611
+brightness_compiler_c 591 611
+brightness_avx2 591 611
+
+clip 07
+pairs 899
+mismatches 0
+brightness_ordinary_c 514 534
+brightness_compiler_c 514 534
+brightness_avx2 514 534
+
+clip 08
+pairs 899
+mismatches 0
+brightness_ordinary_c 545 565
+brightness_compiler_c 545 565
+brightness_avx2 545 565
+
+clip 09
+pairs 899
+mismatches 0
+brightness_ordinary_c 439 459
+brightness_compiler_c 439 459
+brightness_avx2 439 459
+
+clip 10
+pairs 899
+mismatches 0
+brightness_ordinary_c 357 377
+brightness_compiler_c 357 377
+brightness_avx2 357 377
+
+clip 11
+pairs 899
+mismatches 0
+brightness_ordinary_c 350 370
+brightness_compiler_c 350 370
+brightness_avx2 350 370
+
+clip 12
+pairs 899
+mismatches 0
+brightness_ordinary_c 582 602
+brightness_compiler_c 582 602
+brightness_avx2 582 602
+
+clip 13
+pairs 899
+mismatches 0
+brightness_ordinary_c 644 664
+brightness_compiler_c 644 664
+brightness_avx2 644 664
+
+clip 14
+pairs 899
+mismatches 0
+brightness_ordinary_c 182 202
+brightness_compiler_c 182 202
+brightness_avx2 182 202
+
+clip 15
+pairs 899
+mismatches 0
+brightness_ordinary_c 481 501
+brightness_compiler_c 481 501
+brightness_avx2 481 501
+
+clip 16
+pairs 899
+mismatches 0
+brightness_ordinary_c 515 535
+brightness_compiler_c 515 535
+brightness_avx2 515 535
+
+clip 17
+pairs 899
+mismatches 0
+brightness_ordinary_c 631 651
+brightness_compiler_c 631 651
+brightness_avx2 631 651
+
+clip 18
+pairs 899
+mismatches 0
+brightness_ordinary_c 354 374
+brightness_compiler_c 354 374
+brightness_avx2 354 374

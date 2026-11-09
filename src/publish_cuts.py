@@ -1,6 +1,6 @@
 """
-Runs the 3 kernels and writes the cut lists to a file
-Inputs gray frames from FFMPEG and outputs cut lists to a file
+Runs the 3 kernels on every clip and writes the cut lists to a file.
+Inputs gray frames from FFMPEG. Each block in the file names its clip.
 """
 
 import subprocess
@@ -17,7 +17,7 @@ GCC = Path(r"C:\winlibs\mingw64\bin\gcc.exe")
 NASM = Path(r"C:\winlibs\mingw64\bin\nasm.exe")
 BUILD = SRC / "build"
 CUT_FINDER = BUILD / "list_cuts.exe"
-CLIP = ROOT / "clips" / "01.mkv"
+CLIPS = ROOT / "clips"
 CHUNK = 1 << 20
 
 
@@ -86,14 +86,20 @@ def read_pipe(pipe, pieces):
     pieces.append(pipe.read())
 
 
-def main():
-    compile_cut_finder()
+def clip_paths():
+    """The eighteen lossless clips, in order."""
+    paths = sorted(CLIPS.glob("[0-9][0-9].mkv"))
+    if len(paths) != 18:
+        raise SystemExit(f"expected 18 clips, found {len(paths)}")
+    return paths
 
-    # Gray bytes on stdout. One byte per pixel, 1920 by 1080.
+
+def cuts_for(clip):
+    """Turn one clip into gray frames and return the three cut lists."""
     ffmpeg = subprocess.Popen(
         [
             str(FFMPEG), "-hide_banner", "-loglevel", "error",
-            "-i", str(CLIP),
+            "-i", str(clip),
             "-f", "rawvideo", "-pix_fmt", "gray", "-",
         ],
         stdout=subprocess.PIPE,
@@ -120,14 +126,25 @@ def main():
     cut_finder.wait()
     ffmpeg.wait()
 
-    text = b"".join(printed).decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    text = b"".join(printed).decode("utf-8").replace("\r\n", "\n").replace("\r", "\n").strip()
     if cut_finder.returncode != 0:
         message = b"".join(errors).decode("utf-8", "replace")
-        raise SystemExit(message or f"list_cuts exited {cut_finder.returncode}")
+        raise SystemExit(message or f"list_cuts exited {cut_finder.returncode} on {clip.name}")
+    shown = [line for line in text.splitlines() if not line.startswith("quiet ")]
+    return "clip " + clip.stem + "\n" + "\n".join(shown) + "\n"
 
-    cuts_file = ROOT / "clips" / "cuts.txt"
-    cuts_file.write_text(text, encoding="utf-8", newline="\n")
-    print(text)
+
+def main():
+    compile_cut_finder()
+    blocks = []
+    for clip in clip_paths():
+        block = cuts_for(clip)
+        blocks.append(block)
+        print(block, end="\n")
+
+    cuts_file = CLIPS / "cuts.txt"
+    cuts_file.write_text("\n".join(blocks), encoding="utf-8", newline="\n")
+    print(f"wrote {cuts_file}")
 
 
 if __name__ == "__main__":

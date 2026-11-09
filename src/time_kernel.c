@@ -51,17 +51,31 @@ static int compare_times(const void *first, const void *second) {
     return (first_time > second_time) - (first_time < second_time);
 }
 
+/* A progress line goes to stderr so the timing sheet on stdout stays unchanged. */
+static void show_progress(const char *message) {
+    fprintf(stderr, "%s\n", message);
+    fflush(stderr);
+}
+
 /* Run the kernel 5 times and report the median time */
-static void report_kernel(const char *name, brightness_function function, const uint8_t *frames,
-                          int frame_count, size_t pixel_count, LARGE_INTEGER ticks_per_second) {
+static void report_kernel(const char *name, const char *label, brightness_function function,
+                          const uint8_t *frames, int frame_count, size_t pixel_count,
+                          LARGE_INTEGER ticks_per_second) {
     double runs[5];
     int run;
+    char message[80];
 
+    snprintf(message, sizeof message, "%s, warmup", label);
+    show_progress(message);
     run_once(function, frames, frame_count, pixel_count, ticks_per_second);
     for (run = 0; run < 5; run++) {
+        snprintf(message, sizeof message, "%s, pass %d of 5", label, run + 1);
+        show_progress(message);
         runs[run] = run_once(function, frames, frame_count, pixel_count, ticks_per_second);
     }
     qsort(runs, 5, sizeof(double), compare_times);
+    snprintf(message, sizeof message, "%s, median %.3f s", label, runs[2]);
+    show_progress(message);
     printf("%s median %.6f runs %.6f %.6f %.6f %.6f %.6f\n",
            name, runs[2], runs[0], runs[1], runs[2], runs[3], runs[4]);
 }
@@ -90,6 +104,7 @@ int main(int argument_count, char **arguments) {
     }
 
     /* Every frame is read before the clock starts. */
+    show_progress("reading the frames");
     pixel_count = (size_t)width * (size_t)height;
     frames = (uint8_t *)malloc(pixel_count * (size_t)frame_count);
     if (!frames) {
@@ -102,7 +117,10 @@ int main(int argument_count, char **arguments) {
         return 2;
     }
 
+    show_progress("frames are in memory");
+
     /* The three kernels should return the same sum on every pair. */
+    show_progress("checking that the three sums agree");
     for (frame = 1; frame < frame_count; frame++) {
         const uint8_t *previous_frame = frames + (size_t)(frame - 1) * pixel_count;
         const uint8_t *current_frame = frames + (size_t)frame * pixel_count;
@@ -117,9 +135,10 @@ int main(int argument_count, char **arguments) {
 
     QueryPerformanceFrequency(&ticks_per_second);
     printf("pairs %d mismatches %d pixels %zu\n", frame_count - 1, mismatches, pixel_count);
-    report_kernel("brightness_ordinary_c", brightness_ordinary_c, frames, frame_count, pixel_count, ticks_per_second);
-    report_kernel("brightness_compiler_c", brightness_compiler_c, frames, frame_count, pixel_count, ticks_per_second);
-    report_kernel("brightness_avx2", brightness_avx2, frames, frame_count, pixel_count, ticks_per_second);
+    fflush(stdout);
+    report_kernel("brightness_ordinary_c", "Ordinary C", brightness_ordinary_c, frames, frame_count, pixel_count, ticks_per_second);
+    report_kernel("brightness_compiler_c", "Optimized C", brightness_compiler_c, frames, frame_count, pixel_count, ticks_per_second);
+    report_kernel("brightness_avx2", "Handwritten AVX2", brightness_avx2, frames, frame_count, pixel_count, ticks_per_second);
 
     free(frames);
     return mismatches == 0 ? 0 : 1;

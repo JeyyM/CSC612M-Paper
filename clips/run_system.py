@@ -128,6 +128,7 @@ def crossings_of(clip):
         raise SystemExit(err_text or f"list_cuts exited {finder.returncode}")
 
     pairs = None
+    mismatches = None
     quiet = None
     cuts_by_kernel = {}
     for line in b"".join(out).decode("utf-8").splitlines():
@@ -136,8 +137,12 @@ def crossings_of(clip):
             continue
         if parts[0] == "pairs":
             pairs = int(parts[1])
-            quiet = int(parts[5])
-            status = line
+            continue
+        if parts[0] == "mismatches":
+            mismatches = int(parts[1])
+            continue
+        if parts[0] == "quiet":
+            quiet = int(parts[1])
             continue
         cuts_by_kernel[parts[0]] = [int(frame) for frame in parts[1:]]
 
@@ -145,10 +150,10 @@ def crossings_of(clip):
     lists = [cuts_by_kernel[name] for name in names]
     if lists[0] != lists[1] or lists[0] != lists[2]:
         raise SystemExit("cut lists disagree")
-    if not pairs:
+    if not pairs or quiet is None:
         raise SystemExit("list_cuts did not report any pairs")
 
-    return lists[2], quiet / pairs, status
+    return lists[2], quiet / pairs, f"pairs {pairs} mismatches {mismatches}"
 
 
 def frames_from(crossings, offset):
@@ -420,28 +425,16 @@ def decision_row(meta, crossings, quiet_share, votes, rows):
     return record
 
 
-def load_decisions(path):
-    if not path.exists():
-        return [], set()
-    with path.open(encoding="utf-8", newline="") as f:
-        decisions = list(csv.DictReader(f))
-    return decisions, {row["clip"] for row in decisions}
-
-
 def main():
     compile_cut_finder()
     drawn = random_frames()
     print("random frames", drawn, flush=True)
 
     decisions_path = CLIPS / "decisions.csv"
-    decisions, done = load_decisions(decisions_path)
+    decisions = []
 
     for meta in clip_ids():
         name = meta["clip"]
-        if name in done:
-            print("skip", name, flush=True)
-            continue
-
         reference = CLIPS / f"{name}.mkv"
         encode_dir = WORK / name / "encodes"
         score_dir = WORK / name / "scores"
